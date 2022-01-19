@@ -1,35 +1,35 @@
 import { useState, useEffect } from "react";
 
+import Namu from '../data/Namu';
+import Nate from '../data/Nate';
+
 function Main() {
-    // Namu
-    const [NamuRank, setNamuRank] = useState([]);
-    const getNamu = async () => {
-        const resp = await fetch("https://search.namu.wiki/api/ranking");
-        const json = await resp.json();
-        setNamuRank(json);
-    }
-    useEffect(() => { getNamu() }, []);
-
-    // Nate
-    const [NateRank, setNateRank] = useState([]);
-    const getNate = async () => {
-        const resp = await fetch("https://www.nate.com/js/data/jsonLiveKeywordDataV1.js");
-        const json = await resp.json();
-        setNateRank(json);
-    }
-    useEffect(() => { getNate() }, []);
     
+    function onClick () {
+        const Cont = document.querySelector(".cont");
+        const SearchInput = document.getElementById("SearchInput");
+        Cont.addEventListener('click', (e) => {
+            const here = e.target.dataset.value;
+            if (here == undefined) {
+                return
+            }
+            SearchInput.value = here;
+        })
+    }
 
-    
     return (
-        <div>
-            <ul>
-                {NamuRank.map((i) => <li>{i}</li>)}
-            </ul>
-            <ul>
-                {NateRank.map((i) => <li>{i}</li>)}
-            </ul>
-        </div>
+        <main>
+            <article className="input-cont">
+                <form action="https://search.naver.com/search.naver" id="SearchForm">
+                    <input type="text" name="query" id="SearchInput" placeholder="Search in NAVER"/>
+                    <button type="submit" id="SearchBtn"></button>
+                </form>
+            </article>
+            <article className="cont" onClick={onClick}>
+                <Namu />
+                <Nate />
+            </article>
+        </main>
     );
 }
 
